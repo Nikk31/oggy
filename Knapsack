@@ -1,0 +1,92 @@
+#include <stdio.h>
+
+void order(int *p, int *w, int n)
+{
+    double ratio[n];
+    for(int i=0;i<n;i++)
+    {
+        ratio[i]=(double)p[i]/(double)w[i];
+    }
+
+    for(int j=0;j<n;j++)
+    {
+        for(int k=0;k<n-j-1;k++)
+        {
+            if (ratio[k]<ratio[k+1])
+            {
+                int t1,t2;
+                double t3;
+                t3=ratio[k];
+                ratio[k]=ratio[k+1];
+                ratio[k+1]=t3;
+                t1=p[k];
+                t2=w[k];
+                p[k]=p[k+1];
+                p[k+1]=t1;
+                w[k]=w[k+1];
+                w[k+1]=t2;
+            }
+        }
+    }
+}
+
+void knapsack(int *p, int *w, double *x, int m, int n)
+{
+    int U=m;
+    int check=1;
+    int temp;
+    for(int i=0; i<n; i++)
+    {
+        if (w[i]>U)
+        {
+            check=2;
+            temp=i;
+            break;
+        }
+        x[i]=1.0;
+        U=U-w[i];
+    }
+    if(check==2)
+    {
+        x[temp]=(double)U/(double)w[temp];
+    }
+}
+int main()
+{
+    int n;
+    int m;
+    //int p[]={25,24,15};
+    //int w[]={18,15,10};
+    printf("Enter number of elements(n): ");
+    scanf("%d",&n);
+    printf("\nEnter size of knapsack(m): ");
+    scanf("%d",&m);
+    int p[n],w[m];
+    printf("Enter values for profit:");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&p[i]);
+    }
+    printf("Enter values for weight:");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&w[i]);
+    }
+
+    double x[n];
+    double prof;
+    for(int i=0;i<n;i++)
+    {
+        x[i]=0.0;
+    }
+    order(p,w,n);
+    knapsack(p,w,x,m,n);
+    for(int i=0;i<n;i++)
+    {
+        printf("%f\n",x[i]);
+        prof+=p[i]*x[i];
+    }
+    printf("profit=%f",prof);
+
+    return 0;
+}
