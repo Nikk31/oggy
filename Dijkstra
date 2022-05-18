@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <limits.h>
+
+int minDistance(double *dist, int* s,int n)
+{
+    int min=INT_MAX;
+    int min_index;
+    for(int l=0;l<n;l++)
+    {
+        if(s[l]==0 && dist[l]<=min)
+        {
+            min=dist[l];
+            min_index=l;
+        }
+    }
+    return min_index;
+}
+
+void ShortestPath(int v,int cost[8][8],double *dist,int n)
+{
+    int s[8];
+    for(int i=0;i<n;i++)
+    {
+        s[i]=0;
+        dist[i]=(double)cost[v][i];
+    }
+    s[v]=1;
+    dist[v]=0.0;
+    for(int num=1;num<n;num++)
+    {
+        int u;
+        u=minDistance(dist,s,n);
+        s[u]=1;
+        for(int m=0;m<n;m++)
+        {
+            if(cost[u][m]!=0 && cost[u][m]!=INT_MAX && s[m]==0)
+            {
+                if(dist[m]>dist[u]+(double)cost[u][m])
+                {
+                    dist[m]=dist[u]+(double)cost[u][m];
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    int v,n;
+    v=4;
+    n=8;
+    int cost[8][8]={{0,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX},
+                    {300,0,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX},
+                    {100,800,0,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX},
+                    {INT_MAX,INT_MAX,1200,0,INT_MAX,INT_MAX,INT_MAX,INT_MAX},
+                    {INT_MAX,INT_MAX,INT_MAX,1500,0,250,INT_MAX,INT_MAX},
+                    {INT_MAX,INT_MAX,INT_MAX,1000,INT_MAX,0,900,1400},
+                    {INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,0,1000},
+                    {1700,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX,0}};
+    double dist[8];
+    ShortestPath(v,cost,dist,n);
+    for(int i=0;i<n;i++)
+    {
+        printf("%f\n",dist[i]);
+    }
+    return 0;
+}
