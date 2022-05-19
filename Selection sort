@@ -1,0 +1,36 @@
+#include<stdio.h>
+
+void SelectionSort(int *A, int n)
+{
+    int temp;
+    for(int i=0;i<n-1;i++)
+    {
+        int min=i;
+        for(int j=i+1;j<n;j++)
+            if (A[j]<A[min])
+                min=j;
+        temp=A[i];
+        A[i]=A[min];
+        A[min]=temp;
+    }
+}
+
+int main()
+{
+    int size;
+    printf("Enter the size of the array=");
+    scanf("%d",&size);
+    int a[size];
+    printf("Enter %d number of elements in the array in random order:\n",size);
+    for(int i=0;i<size;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    SelectionSort(a,size);
+    printf("The sorted array is as follows:");
+    for(int i=0;i<size;i++)
+    {
+        printf("\n%d",a[i]);
+    }
+}
+    
