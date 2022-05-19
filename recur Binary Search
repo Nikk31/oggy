@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+int BinSearch(int *A, int low,int high, int x)
+{
+    int mid;
+    while(low<=high)
+    {
+        mid=(low+high)/2;
+        if(x<A[mid])
+            return BinSearch(A, low, mid - 1, x);
+        else if (x>A[mid])
+            return BinSearch(A, mid+1, high, x);
+        else
+            return mid;
+    }
+    return -1;
+}
+
+void main()
+{
+    int size,item;
+    printf("Number of elements in array: ");
+    scanf("%d",&size);
+    int a[size];
+    printf("Enter %d elements in ascending order: ",size);
+    for(int i=0;i<size;i++)
+        scanf("%d",&a[i]);
+    
+    printf("Enter element to be searched: ");
+    scanf("%d",&item);
+    int low =0, high =size-1;
+    int y=BinSearch(a,0,size,item);
+    if (y==-1)
+        printf("Element is not present in array");
+    else
+        printf("Element is present at index %d",y);
+}
