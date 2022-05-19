@@ -1,0 +1,69 @@
+#include<stdio.h>
+
+int a[100],b[100];
+void Merge(int low, int mid, int high)
+{
+    int h=low, i=low, j=mid+1,k;
+    while((h<=mid) && (j<=high))
+    {
+        if(a[h]<=a[j])
+        {
+            b[i]=a[h];
+            h=h+1;
+            
+        }
+        else
+        {
+            b[i]=a[j];
+            j=j+1;
+        }
+        i=i+1;
+    }
+    if(h>mid)
+        for(k=j;k<=high;k++)
+        {
+            b[i]=a[k];
+            i=i+1;
+        }
+    else
+        for(k=h;k<=mid;k++)
+        {
+            b[i]=a[k];
+            i=i+1;
+        }
+    for(k=low;k<=high;k++)
+    {
+        a[k]=b[k];
+    }
+}
+
+
+void MergeSort(int low,int high)
+{
+    int mid;
+    if(low<high)
+    {
+        mid=(low+high)/2;
+        MergeSort(low,mid);
+        MergeSort(mid+1,high);
+        Merge(low,mid,high);
+    }
+}
+
+void main()
+{
+    int size;
+    printf("Enter the size of the array (not more than 99) =");
+    scanf("%d",&size);
+    printf("Enter %d number of elements in the array in random order:\n",size);
+    for(int i=1;i<=size;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    MergeSort(1,size);
+    printf("The sorted array is as follows:");
+    for(int i=1;i<=size;i++)
+    {
+        printf("\n%d",a[i]);
+    }
+}
